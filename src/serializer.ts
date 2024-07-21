@@ -46,6 +46,7 @@ export class JsonSerializer extends JsonTransform {
         for (const key in namedSchema) {
           try {
             const item = namedSchema[key];
+            const itemTargetSchema = item.type as IEmptyConstructor<any>;
             const objItem = obj[key];
             let value: any;
 
@@ -78,9 +79,9 @@ export class JsonSerializer extends JsonTransform {
               // CONSTRUCTED
               if (item.repeated) {
                 // REPEATED
-                value = objItem.map((el: any) => this.toJSON(el, { schemaName }));
+                value = objItem.map((el: any) => this.toJSON(el, { targetSchema: itemTargetSchema ,schemaName }));
               } else {
-                value = this.toJSON(objItem, { schemaName });
+                value = this.toJSON(objItem, { targetSchema: itemTargetSchema ,schemaName });
               }
             }
 
